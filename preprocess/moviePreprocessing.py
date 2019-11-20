@@ -79,13 +79,19 @@ def get_movies_by_language(df, language, ln):
 
 #By country
 def get_movies_by_country(df, country):
-    return df[df['production_countries'].str.contains(country)] 
+    if len(country) > 2:
+        return df[df['production_countries'].str.contains(country)] 
+    else :
+        return df[df['production_countries'].str.contains('"' + country + '"')] 
 
 #By list of countries
 def get_movies_by_list_of_countries(df, countries):
     df1 = df    
     for country in countries:
-        df1 = df1[df1['production_countries'].str.contains(country)]
+        if len(country) > 2:
+            df1 = df1[df1['production_countries'].str.contains(country)]
+        else:
+            df1 = df1[df1['production_countries'].str.contains('"' + country + '"')]
     return df1
 
 #By company
@@ -132,6 +138,6 @@ if __name__ == "__main__":
 
     print(get_movies_by_country(df, "United States"))
 
-    print(get_movies_by_list_of_countries(df, ["United States", "GB"]))
+    print(get_movies_by_list_of_countries(df, ["United States", "GB"])) #378
 
     print(get_movies_by_language(df, "English", ln))
