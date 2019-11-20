@@ -17,4 +17,7 @@ TMDB api I used:
 ```
  
  change is to our Api when test backend service.
-    
+
+ 20.11.2019
+ Front finished
+ Beside search movie name, user can input Rating, Year, Genre( both or 2 of 3, separated by commes) at one page.
