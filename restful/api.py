@@ -1,13 +1,14 @@
 import json
+from functools import wraps
 
 import pandas as pd
 from flask import Flask
 from flask import request
 from flask_restplus import Resource, Api
+from flask_restplus import abort
 from flask_restplus import fields
 from flask_restplus import inputs
 from flask_restplus import reqparse
-
 
 
 pd.options.mode.chained_assignment = None
@@ -48,6 +49,9 @@ def display_percentage_of_nulls(df):
 #Query
 #By title
 def get_movies_by_title(df, title):
+    return df.loc[df['title'].str.contains(title)]
+
+def get_movies_by_exact_title(df, title):
     return df.loc[df['title'] == title]
 
 #By release date
@@ -129,13 +133,22 @@ def add_data_to_db(df, name):
 ###########
 #API
 ###########
-
-
 app = Flask(__name__)
 api = Api(app,
           default = "Movies",
           title="Movie Dataset",
           description="This is the movie recommender Anna")
+
+
+#movie_model = api.model('Movie', {
+#    'Title': fields.String,
+#    'Genre': fields.String,
+#    'Country': fields.String,
+#    'Keyword': fields.String,
+#    'Date': fields.String,
+#    'Language': fields.String,
+#    'Company': fields.String
+#})
 
 @api.route('/movies')
 class MovieList(Resource):
@@ -160,7 +173,7 @@ class MovieList(Resource):
 @api.route('/movies/<string:name>')
 @api.param('name', 'The name of movie')
 class Movie(Resource):
-    @api.response(404, 'Book was not found')
+    @api.response(404, 'Movie was not found')
     @api.response(200, 'Successful')
     @api.doc(description="Get a book by its ID")
     def get(self, name):
@@ -168,7 +181,7 @@ class Movie(Resource):
         rdf = get_movies_by_title(df, str(name))
 
         if rdf.empty:
-            pass
+            api.abort(404, "Movie {} not found".format(name))
         else:
             json_str = rdf.to_json(orient='index')
 
