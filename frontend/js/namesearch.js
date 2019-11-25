@@ -18,7 +18,8 @@ function fetchMovie(e) {
     const searchtext = document.getElementById("searchtext").value;
     var fetchMovieUrl ; 
     if(searchtext.indexOf(",") == -1){
-        var fetchMovieUrl = myapi +`&query=${searchtext}&page=1`;
+        //var fetchMovieUrl = myapi +`&query=${searchtext}&page=1`;
+        var fetchMovieUrl = `http://127.0.0.1:5000/movies/${searchtext}`
     }else{
         const features = searchtext.split(",");
         // rating year genre
@@ -49,7 +50,7 @@ function fetchMovie(e) {
     console.log(fetchMovieUrl);
     fetch(fetchMovieUrl)
         .then(res => res.json())
-        .then(data => showmovie(data.results))
+        .then(data => showmovie(data))
         .catch(err => console.log(err));
 }
 
@@ -61,6 +62,37 @@ function showmovie(movies) {
     const results = document.querySelector("#showtable");
     results.innerHTML = "";
 
+
+    // test
+    const movie = movies[0];
+    
+    //get review 
+    //const fetchreviewUrl =`https://api.themoviedb.org/3/movie/${id}/reviews?api_key=e3062f645fde67eecb0c4b0e2bcd7b81&language=en-US&page=1`
+    //fetch(fetchreviewUrl)
+        //.then(res => res.json())
+        //.then(data => console.log(data.results))
+
+    const div = document.createElement("div");
+    div.classList.add("card");
+    div.innerHTML = `
+    <img src="#" class="card-img-top" alt="no picture">
+    <div class="card-body">
+        <h5 class="card-title">${movie.title} (${movie.release_date.split('-', 1)})</h5>
+        <p class="card-text">${movie.overview}
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Rating: ${movie.vote_average}</li>
+        <li class="list-group-item">Genres: </li>
+        <li class="list-group-item"></li>
+    </ul>
+    <div class="card-body">    
+        
+    </div>`;//<a href="${movie.homepage}" class="card-link">view review</a>
+    results.appendChild(div);
+
+
+    /// test end 
+    /*
     for(let i = 0 ; i < movies.length; i++){
         const movie = movies[i];
         const id = movie.id;
@@ -88,5 +120,6 @@ function showmovie(movies) {
             
         </div>`;//<a href="${movie.homepage}" class="card-link">view review</a>
         results.appendChild(div);
-    }
+        */
+    //}
 }

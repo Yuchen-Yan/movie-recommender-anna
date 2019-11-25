@@ -1,0 +1,140 @@
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/movielist": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "description": "Get all movies by features",
+                "operationId": "get_movie_list",
+                "parameters": [
+                    {
+                        "name": "rating",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ]
+            }
+        },
+        "/movies/{name}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The name of movie",
+                    "name": "name",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Movie was not found"
+                    }
+                },
+                "description": "Get a Movie by its title",
+                "operationId": "get_movie",
+                "tags": [
+                    "Movies"
+                ]
+            }
+        },
+        "/token": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "description": "Generates a authentication token",
+                "operationId": "get_token",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "tags": [
+                    "Movies"
+                ]
+            }
+        },
+        "/visit_report": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "description": "Get the visit report",
+                "operationId": "get_visit_report",
+                "tags": [
+                    "Movies"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Movie Dataset",
+        "version": "1.0",
+        "description": "This is the movie recommendation system"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "API-KEY": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "AUTH-TOKEN"
+        }
+    },
+    "security": [
+        {
+            "API-KEY": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Movies",
+            "description": "Default namespace"
+        }
+    ],
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }
+    }
+}

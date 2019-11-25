@@ -155,7 +155,7 @@ class MovieList(Resource):
             movie['index'] = int(idx)
             ret.append(movie)
 
-        return ret 
+        return ret
 
 @api.route('/movies/<string:name>')
 @api.param('name', 'The name of movie')

@@ -21,3 +21,12 @@ TMDB api I used:
  ## 20.11.2019
  Front finished
  Beside search movie name, user can input Rating, Year, Genre( both or 2 of 3, separated by commes) at one page.
+
+ ## 25.11.2019
+ Final version
+ -Collaborative Filtering works well, but its performance is restricted by size of dataset.
+ -recommend system works prefect based on features given by users.
+ -Authorization can be well implemented at backend. I design a login form but still do not figure out how send JWT token back to endback. 
+ -i also create a function that aims to record info of each request. it is useful for developer to check request flow.
+ -Extra api i used is to get the poster of movie, let website interface beautiful.
+
